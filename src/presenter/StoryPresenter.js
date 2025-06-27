@@ -7,7 +7,7 @@ class StoryPresenter {
   constructor() {
     this.model = new StoryModel();
     this.view = new StoryView();
-    this.cleanupCurrentPage = null; 
+    this.currentForm = null;  // Menyimpan referensi ke form yang sedang aktif
     this.initRouter();
   }
 
@@ -15,15 +15,15 @@ class StoryPresenter {
     this.showPage(window.location.hash);
 
     this.view.setClearCacheHandler(async () => {
-    try {
-      await IndexedDB.clearStories();
-      alert('Cache berhasil dihapus.');
-      this.showStoriesPage();
-    } catch (err) {
-      console.error('Gagal menghapus cache:', err);
-      alert('Terjadi kesalahan saat menghapus cache.');
-    }
-  });
+      try {
+        await IndexedDB.clearStories();
+        alert('Cache berhasil dihapus.');
+        this.showStoriesPage();
+      } catch (err) {
+        console.error('Gagal menghapus cache:', err);
+        alert('Terjadi kesalahan saat menghapus cache.');
+      }
+    });
   }
 
   initRouter() {
@@ -36,10 +36,9 @@ class StoryPresenter {
     const main = document.getElementById('main-content');
     if (!main) return;
 
-    // ✅ Bersihkan state halaman sebelumnya (kamera dll)
-    if (this.cleanupCurrentPage) {
-      this.cleanupCurrentPage();
-      this.cleanupCurrentPage = null;
+    // ✅ Berhenti kamera jika ada form aktif sebelum pindah halaman
+    if (this.currentForm) {
+      this.currentForm.stopCamera();  // Berhenti kamera saat berpindah halaman
     }
 
     main.classList.remove('fade-enter-active');
@@ -89,7 +88,12 @@ class StoryPresenter {
 
   showAddPage() {
     const form = this.view.showAddForm();
-    this.cleanupCurrentPage = () => form.stopCamera?.(); // ✅ matikan kamera saat keluar halaman
+    this.currentForm = form;  // Menyimpan referensi form yang aktif
+
+    // Berhenti kamera ketika tombol ambil foto diklik
+    form.setTakePhotoHandler(() => {
+      form.stopCamera();
+    });
 
     form.setSubmitHandler(async () => {
       const data = form.getFormData();
@@ -149,7 +153,6 @@ class StoryPresenter {
     warning.style.borderRadius = '8px';
     main.prepend(warning);
   }
-  
 }
 
 export default StoryPresenter;
