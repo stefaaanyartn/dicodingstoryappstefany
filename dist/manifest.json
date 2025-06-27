@@ -1,0 +1,36 @@
+{
+    "name": "Story App",
+    "short_name": "Stories",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2196f3",
+    "orientation": "portrait",
+    "scope": "/",
+    "icons": [
+        {
+        "src": "icons/web-app-manifest-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+        },
+        {
+        "src": "icons/web-app-manifest-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/icons/screenshot.png",
+            "type": "image/png",
+            "sizes": "1895x857",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/icons/screenshot1.png",
+            "type": "image/png",
+            "sizes": "608x751",
+            "form_factor": "wide"
+        }
+    ]
+}

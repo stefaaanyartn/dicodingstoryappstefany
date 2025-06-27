@@ -1,0 +1,11 @@
+Map Service: OpenStreetMap
+API Key: Not required (OpenStreetMap is free to use)
+Story API: https://story-api.dicoding.dev/v1
+
+Authentication:
+- All POST requests require Authorization header with Bearer token
+- Token obtained through login endpoint
+- Token stored in localStorage after login
+
+LINK DEPLOY APP : https://storyappstefany.netlify.app/ 
+
